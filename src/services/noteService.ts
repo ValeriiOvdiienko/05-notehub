@@ -23,13 +23,10 @@ export async function fetchNotes(
     },
   };
   const { data } = await axios.request<FetchNotehubResponse>(options);
-  console.log(data);
   return data;
 }
 // функція post-запиту
-export async function createNote(
-  value: NoteFormValues,
-): Promise<FetchNotehubResponse> {
+export async function createNote(value: NoteFormValues): Promise<Note> {
   const myKey = import.meta.env.VITE_NOTEHUB_TOKEN;
   const options = {
     method: "POST",
@@ -40,12 +37,11 @@ export async function createNote(
     },
     data: value,
   };
-  const { data } = await axios.request<FetchNotehubResponse>(options);
-  console.log(data);
+  const { data } = await axios.request<Note>(options);
   return data;
 }
 // функція видалення
-export async function deleteNote(id: string) {
+export async function deleteNote(id: string): Promise<Note> {
   const myKey = import.meta.env.VITE_NOTEHUB_TOKEN;
   const options = {
     method: "DELETE",
@@ -55,5 +51,6 @@ export async function deleteNote(id: string) {
       Authorization: `Bearer ${myKey}`,
     },
   };
-  await axios.request(options);
+  const { data } = await axios.request<Note>(options);
+  return data;
 }
